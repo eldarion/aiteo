@@ -19,6 +19,8 @@ def question_list(request, **kwargs):
     
     if group:
         questions = group.content_objects(questions)
+    else:
+        questions = questions.filter(group_content_type=None)
     
     ctx = group_context(group, bridge)
     ctx.update({
@@ -66,6 +68,8 @@ def question_detail(request, question_id, **kwargs):
     
     if group:
         questions = group.content_objects(questions)
+    else:
+        questions = questions.filter(group_content_type=None)
     
     question = get_object_or_404(questions, pk=question_id)
     responses = question.responses.order_by("-score", "created", "id")
