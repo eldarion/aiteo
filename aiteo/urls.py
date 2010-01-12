@@ -1,14 +1,14 @@
 from django.conf.urls.defaults import *
 
-from questions.models import Question, Response
+from aiteo.models import Question, Response
 from voting.views import vote_on_object
 
 
 urlpatterns = patterns("",
-    url(r'^$', "questions.views.question_list", name="questions_question_list"),
-    url(r'^ask/$', "questions.views.question_create", name="questions_question_create"),
-    url(r'^question/(?P<question_id>\d+)/$', "questions.views.question_detail", name="questions_question_detail"),
-    url(r'^question/(?P<question_id>\d+)/accept/(?P<response_id>\d+)/$', "questions.views.mark_accepted", name="questions_mark_accepted"),
+    url(r'^$', "aiteo.views.question_list", name="aiteo_question_list"),
+    url(r'^ask/$', "aiteo.views.question_create", name="aiteo_question_create"),
+    url(r'^question/(?P<question_id>\d+)/$', "aiteo.views.question_detail", name="aiteo_question_detail"),
+    url(r'^question/(?P<question_id>\d+)/accept/(?P<response_id>\d+)/$', "aiteo.views.mark_accepted", name="aiteo_mark_accepted"),
     
     # Question voting
     url(r'^question/vote-question/(?P<object_id>\d+)/(?P<direction>up|down|clear)vote/$',
@@ -18,7 +18,7 @@ urlpatterns = patterns("",
             template_name = "questions/confirm_vote.html",
             allow_xmlhttprequest = True
         ),
-        name="questions_question_vote"),
+        name="aiteo_question_vote"),
     
     # Response voting
     url(r'^question/vote-response/(?P<object_id>\d+)/(?P<direction>up|down|clear)vote/$',
@@ -28,5 +28,5 @@ urlpatterns = patterns("",
             template_name = "questions/confirm_vote.html",
             allow_xmlhttprequest = True
         ),
-        name="questions_response_vote"),
+        name="aiteo_response_vote"),
 )

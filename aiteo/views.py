@@ -4,8 +4,8 @@ from django.shortcuts import get_object_or_404, render_to_response
 
 from django.contrib.auth.decorators import login_required
 
-from questions.forms import AskQuestionForm, AddResponseForm
-from questions.models import Question
+from aiteo.forms import AskQuestionForm, AddResponseForm
+from aiteo.models import Question
 
 
 @login_required # @@@
@@ -24,7 +24,7 @@ def question_list(request, group_slug=None, bridge=None):
     if group:
         questions = group.content_objects(questions)
     
-    return render_to_response("questions/question_list.html", {
+    return render_to_response("aiteo/question_list.html", {
         "group": group,
         "questions": questions,
     }, context_instance=RequestContext(request))
@@ -51,7 +51,7 @@ def question_create(request, group_slug=None, bridge=None):
     else:
         form = AskQuestionForm()
     
-    return render_to_response("questions/question_create.html", {
+    return render_to_response("aiteo/question_create.html", {
         "group": group,
         "form": form,
     }, context_instance=RequestContext(request))
@@ -96,7 +96,7 @@ def question_detail(request, question_id, group_slug=None, bridge=None):
         else:
             add_response_form = None
     
-    return render_to_response("questions/question_detail.html", {
+    return render_to_response("aiteo/question_detail.html", {
         "group": group,
         "is_me": is_me,
         "question": question,

@@ -1,6 +1,6 @@
 from django import forms
 
-from questions.models import Question, Response
+from aiteo.models import Question, Response
 
 
 class AskQuestionForm(forms.ModelForm):

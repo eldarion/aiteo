@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from questions.models import Question, Response
+from aiteo.models import Question, Response
 
 
 class ResponseInline(admin.StackedInline):
