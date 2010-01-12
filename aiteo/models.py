@@ -32,12 +32,12 @@ class Question(models.Model):
         self.vote_count = result["num_votes"]
         self.save()
     
-    def get_absolute_url(self, group=None):
+    def get_absolute_url(self):
         kwargs = {
             "question_id": self.pk,
         }
-        if group:
-            return group.content_bridge.reverse("questions_question_detail", kwargs=kwargs)
+        if self.group:
+            reverse = self.group.content_bridge.reverse
         return reverse("questions_question_detail", kwargs=kwargs)
 
 
@@ -71,8 +71,8 @@ class Response(models.Model):
         self.accepted = True
         self.save()
     
-    def get_absolute_url(self, group=None):
-        return "%s#response-%d" % (self.question.get_absolute_url(group), self.pk)
+    def get_absolute_url(self):
+        return "%s#response-%d" % (self.question.get_absolute_url(), self.pk)
 
 
 def vote_save(sender, instance=None, **kwargs):
