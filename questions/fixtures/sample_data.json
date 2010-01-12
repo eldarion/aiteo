@@ -1,0 +1,202 @@
+[
+  {
+    "pk": 1, 
+    "model": "questions.question", 
+    "fields": {
+      "created": "2009-08-08 02:59:10", 
+      "question": "How do I run Pinax?", 
+      "object_id": null, 
+      "content": "I am trying to get Pinax up and running, but am having a difficult time. Here are the steps I have taken so far:\r\n\r\n{{{\r\npinax-boot.py ../pinax-env\r\n}}}\r\n\r\nI am now not sure what to do next?", 
+      "user": 8, 
+      "score": 0, 
+      "vote_count": 0, 
+      "content_type": null
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "questions.question", 
+    "fields": {
+      "created": "2009-08-08 04:22:39", 
+      "question": "Does Pinax run on Django 1.1", 
+      "object_id": null, 
+      "content": "I am wondering if Pinax can run on the recently released Django 1.1? When will it be included in Pinax?", 
+      "user": 25, 
+      "score": 0, 
+      "vote_count": 0, 
+      "content_type": null
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "questions.question", 
+    "fields": {
+      "created": "2009-08-08 04:24:38", 
+      "question": "How do I add a tab to Pinax?", 
+      "object_id": null, 
+      "content": "I am looking to build an app of my own and want to know how to add a tab? This is very important to me so please answer me quickly!!", 
+      "user": 54, 
+      "score": 0, 
+      "vote_count": 0, 
+      "content_type": null
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "questions.question", 
+    "fields": {
+      "created": "2009-08-08 04:53:01", 
+      "question": "What features do you want to see in 0.9", 
+      "object_id": null, 
+      "content": "There isn't going to be a single answer (this question exists merely to test accept behavior for creator).", 
+      "user": 1, 
+      "score": 0, 
+      "vote_count": 0, 
+      "content_type": null
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "questions.question", 
+    "fields": {
+      "created": "2009-08-08 04:55:49", 
+      "question": "Tell me what you think Pinax 2.0 should be", 
+      "object_id": null, 
+      "content": "Again, not a real question, but something we must ask. Actually, this exists for jtauber to test new response accepted behavior.", 
+      "user": 2, 
+      "score": 0, 
+      "vote_count": 0, 
+      "content_type": null
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "We have provided a script that will create a virtual environment for you.\r\nOnce you have downloaded the release tarball, cd into the extracted directory.\r\nLet's create a virtual environment that you will install everything into:\r\n\r\n{{{\r\n$ python scripts/pinax-boot.py ../pinax-env\r\n$ cd ../\r\n$ source ./pinax-env/bin/activate\r\n(pinax-env)$\r\n}}}\r\n\r\nNote that we have told you to create the new environment in the directory\r\nabove the tarball directory. We encourage you create the environment anywhere\r\nyou like.\r\n\r\nIf you use virtualenvwrapper (we highly encourage you do), you can easily\r\nreplace {{{../}}} with your {{{WORKON_HOME}}}. This gives you regular access\r\nto workon to activate your environment.", 
+      "accepted": true, 
+      "question": 1, 
+      "user": 2, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 03:09:33"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "You should follow the INSTALL documentation to learn how to perform this action.\r\n\r\nHere is some code for you:\r\n\r\n{{{\r\nwhile True:\r\n    if self.tired():\r\n        time.sleep(10)\r\n}}}\r\n\r\nOkay?", 
+      "accepted": false, 
+      "question": 1, 
+      "user": 1, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 02:59:39"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "Yes, it should run on Django 1.1. If there are any problems please report them. We intend to include 1.1 in a future release of Pinax.", 
+      "accepted": false, 
+      "question": 2, 
+      "user": 1, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 04:23:30"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "It is impossible to do it. You have to clone Python, Django and Pinax then re-write it in C before it can work.", 
+      "accepted": false, 
+      "question": 3, 
+      "user": 97, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 04:24:38"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "Do what Brian said (this isn't a real response, but here so there are three)", 
+      "accepted": false, 
+      "question": 3, 
+      "user": 2, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 04:24:38"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "This is fairly easy. You should have a file called {{{site_tabs.css}}} in your project. That outlines the tabs currently. You will need to manually edit the file, but here is an example tab:\r\n\r\n{{{\r\n#!code css\r\nbody.wiki #tab_wiki a {\r\n    color: #000; /* selected tab text colour */\r\n}\r\nbody.wiki #tab_wiki {\r\n    margin: 0; /* to compensate for border */\r\n    padding: 5px 0 5px;\r\n    background-color: #DEF; /* selected tab colour */\r\n    border-left: 1px solid #000; /* tab border */\r\n    border-top: 1px solid #000; /* tab border */\r\n    border-right: 1px solid #000; /* tab border */\r\n}\r\n}}}\r\n\r\nNotice how each of the CSS rules above are scoped within {{{body.wiki}}}. This is done for selecting the tab. In the base.html for the app (for example in {{{yourapp/base.html}}} you'd do:\r\n\r\n{{{\r\n#!code django\r\n{% block body_class %}wiki{% endblock %}\r\n}}}\r\n\r\nLastly, create the tab in your {{{site_base.html}}}:\r\n\r\n{{{\r\n#!code django\r\n{% block right_tabs %}\r\n    {% if user.is_authenticated %}\r\n        <ul class=\"tabs\">{% spaceless %}\r\n            <li id=\"tab_wiki\"><a href=\"{% url wiki_article \"HomePage\" %}\">{% trans \"Wiki\" %}</a></li>\r\n        {% endspaceless %}</ul>\r\n    {% endif %}\r\n{% endblock %}\r\n}}}", 
+      "accepted": false, 
+      "question": 3, 
+      "user": 1, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 04:24:38"
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "I want ponies in paradise.", 
+      "accepted": false, 
+      "question": 4, 
+      "user": 73, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 04:53:01"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "Have you considered this bit of Python code?\r\n\r\n{{{\r\n#!code python\r\ndef question_detail(request, question_id, group_slug=None, bridge=None):\r\n    \r\n    if bridge:\r\n        try:\r\n            group = bridge.get_group(group_slug)\r\n        except ObjectDoesNotExist:\r\n            raise Http404()\r\n    else:\r\n        group = None\r\n    \r\n    questions = Question.objects.all()\r\n    \r\n    if group:\r\n        questions = group.content_objects(questions)\r\n    \r\n    question = get_object_or_404(questions, pk=question_id)\r\n    responses = question.responses.all() # @@@ ordering\r\n    \r\n    if question.user == request.user:\r\n        is_me = True\r\n    else:\r\n        is_me = False\r\n    \r\n    return render_to_response(\"questions/question_detail.html\", {\r\n        \"group\": group,\r\n        \"is_me\": is_me,\r\n        \"question\": question,\r\n        \"responses\": responses,\r\n    }, context_instance=RequestContext(request))\r\n}}}\r\n\r\nPlease do!", 
+      "accepted": false, 
+      "question": 4, 
+      "user": 3, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 04:53:01"
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "Pinax 2.0 should be better than Pinax 1.0.", 
+      "accepted": false, 
+      "question": 5, 
+      "user": 1, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 04:55:49"
+    }
+  }, 
+  {
+    "pk": 10, 
+    "model": "questions.response", 
+    "fields": {
+      "content": "I think Pinax 2.0 should fly with the Django pony to fight crime like coding in PHP or Ruby.", 
+      "accepted": false, 
+      "question": 5, 
+      "user": 8, 
+      "score": 0, 
+      "vote_count": 0, 
+      "created": "2009-08-08 04:55:49"
+    }
+  }
+]
