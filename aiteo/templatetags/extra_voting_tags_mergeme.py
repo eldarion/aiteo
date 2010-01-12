@@ -3,6 +3,7 @@ from django import template
 register = template.Library()
 
 
+
 @register.filter
 def get_state(original_type, vote_obj):
     # FIXME: there is a better name for it

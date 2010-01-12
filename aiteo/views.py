@@ -8,6 +8,7 @@ from aiteo.forms import AskQuestionForm, AddResponseForm
 from aiteo.models import Question
 
 
+
 @login_required # @@@
 def question_list(request, group_slug=None, bridge=None):
     
@@ -24,10 +25,14 @@ def question_list(request, group_slug=None, bridge=None):
     if group:
         questions = group.content_objects(questions)
     
-    return render_to_response("aiteo/question_list.html", {
+    ctx = {
         "group": group,
         "questions": questions,
-    }, context_instance=RequestContext(request))
+    }
+    
+    return render_to_response("aiteo/question_list.html",
+        context_instance = RequestContext(request, ctx)
+    )
 
 
 @login_required
@@ -51,10 +56,14 @@ def question_create(request, group_slug=None, bridge=None):
     else:
         form = AskQuestionForm()
     
-    return render_to_response("aiteo/question_create.html", {
+    ctx = {
         "group": group,
         "form": form,
-    }, context_instance=RequestContext(request))
+    }
+    
+    return render_to_response("aiteo/question_create.html",
+        context_instance = RequestContext(request)
+    )
 
 
 @login_required # @@@
@@ -83,7 +92,7 @@ def question_detail(request, question_id, group_slug=None, bridge=None):
     
     if request.method == "POST":
         add_response_form = AddResponseForm(request.POST)
-    
+        
         if add_response_form.is_valid():
             response = add_response_form.save(commit=False)
             response.question = question
@@ -96,13 +105,17 @@ def question_detail(request, question_id, group_slug=None, bridge=None):
         else:
             add_response_form = None
     
-    return render_to_response("aiteo/question_detail.html", {
+    ctx = {
         "group": group,
         "is_me": is_me,
         "question": question,
         "responses": responses,
         "add_response_form": add_response_form,
-    }, context_instance=RequestContext(request))
+    }
+    
+    return render_to_response("aiteo/question_detail.html",
+        context_instance = RequestContext(request)
+    )
 
 
 @login_required

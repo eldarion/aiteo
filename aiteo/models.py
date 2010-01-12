@@ -11,6 +11,7 @@ from django.contrib.contenttypes.models import ContentType
 from voting.models import Vote
 
 
+
 class Question(models.Model):
     
     object_id = models.IntegerField(null=True, blank=True)
@@ -56,7 +57,7 @@ class Response(models.Model):
         self.score = result["score"]
         self.vote_count = result["num_votes"]
         self.save()
-        
+    
     def accept(self):
         # check for another active one and mark it inactive
         try:
