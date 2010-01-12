@@ -120,6 +120,8 @@ def mark_accepted(request, question_id, response_id, **kwargs):
     
     if group:
         questions = group.content_objects(questions)
+    else:
+        questions = questions.filter(group_content_type=None)
     
     question = get_object_or_404(questions, pk=question_id)
     
