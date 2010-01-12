@@ -5,30 +5,26 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.contrib.auth.decorators import login_required
 
 from aiteo.forms import AskQuestionForm, AddResponseForm
+from aiteo.groups import group_and_bridge, group_context
 from aiteo.models import Question
 
 
 
 @login_required # @@@
-def question_list(request, group_slug=None, bridge=None):
+def question_list(request, **kwargs):
     
-    if bridge:
-        try:
-            group = bridge.get_group(group_slug)
-        except ObjectDoesNotExist:
-            raise Http404()
-    else:
-        group = None
+    group, bridge = group_and_bridge(kwargs)
     
     questions = Question.objects.all().order_by("-score", "created", "id")
     
     if group:
         questions = group.content_objects(questions)
     
-    ctx = {
+    ctx = group_context(group, bridge)
+    ctx.update({
         "group": group,
         "questions": questions,
-    }
+    })
     
     return render_to_response("aiteo/question_list.html",
         context_instance = RequestContext(request, ctx)
@@ -36,15 +32,9 @@ def question_list(request, group_slug=None, bridge=None):
 
 
 @login_required
-def question_create(request, group_slug=None, bridge=None):
+def question_create(request, **kwargs):
     
-    if bridge:
-        try:
-            group = bridge.get_group(group_slug)
-        except ObjectDoesNotExist:
-            raise Http404()
-    else:
-        group = None
+    group, bridge = group_and_bridge(kwargs)
     
     if request.method == "POST":
         form = AskQuestionForm(request.POST)
@@ -56,26 +46,21 @@ def question_create(request, group_slug=None, bridge=None):
     else:
         form = AskQuestionForm()
     
-    ctx = {
+    ctx = group_context(group, bridge)
+    ctx.update({
         "group": group,
         "form": form,
-    }
+    })
     
     return render_to_response("aiteo/question_create.html",
-        context_instance = RequestContext(request)
+        context_instance = RequestContext(request, ctx)
     )
 
 
 @login_required # @@@
-def question_detail(request, question_id, group_slug=None, bridge=None):
+def question_detail(request, question_id, **kwargs):
     
-    if bridge:
-        try:
-            group = bridge.get_group(group_slug)
-        except ObjectDoesNotExist:
-            raise Http404()
-    else:
-        group = None
+    group, bridge = group_and_bridge(kwargs)
     
     questions = Question.objects.all()
     
@@ -105,32 +90,27 @@ def question_detail(request, question_id, group_slug=None, bridge=None):
         else:
             add_response_form = None
     
-    ctx = {
+    ctx = group_context(group, bridge)
+    ctx.update({
         "group": group,
         "is_me": is_me,
         "question": question,
         "responses": responses,
         "add_response_form": add_response_form,
-    }
+    })
     
     return render_to_response("aiteo/question_detail.html",
-        context_instance = RequestContext(request)
+        context_instance = RequestContext(request, ctx)
     )
 
 
 @login_required
-def mark_accepted(request, question_id, response_id, group_slug=None, bridge=None):
+def mark_accepted(request, question_id, response_id, **kwargs):
     
     if request.method != "POST":
         return HttpResponse("bad")
     
-    if bridge:
-        try:
-            group = bridge.get_group(group_slug)
-        except ObjectDoesNotExist:
-            raise Http404()
-    else:
-        group = None
+    group, bridge = group_and_bridge(kwargs)
     
     questions = Question.objects.all()
     

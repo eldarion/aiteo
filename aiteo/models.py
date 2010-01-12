@@ -14,9 +14,9 @@ from voting.models import Vote
 
 class Question(models.Model):
     
-    object_id = models.IntegerField(null=True, blank=True)
-    content_type = models.ForeignKey(ContentType, null=True, blank=True)
-    group = generic.GenericForeignKey()
+    group_content_type = models.ForeignKey(ContentType, null=True, blank=True)
+    group_object_id = models.IntegerField(null=True, blank=True)
+    group = generic.GenericForeignKey("group_content_type", "group_object_id")
     
     question = models.CharField(max_length=100)
     content = models.TextField()
