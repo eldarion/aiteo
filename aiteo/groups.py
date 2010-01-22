@@ -20,8 +20,8 @@ def group_and_bridge(kwargs):
         group = None
     
     return group, bridge
- 
- 
+
+
 def group_context(group, bridge):
     # @@@ use bridge
     return {

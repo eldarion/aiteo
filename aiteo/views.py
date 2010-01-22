@@ -28,9 +28,8 @@ def question_list(request, **kwargs):
         "questions": questions,
     })
     
-    return render_to_response("aiteo/question_list.html",
-        context_instance = RequestContext(request, ctx)
-    )
+    ctx = RequestContext(request, ctx)
+    return render_to_response("aiteo/question_list.html", ctx)
 
 
 @login_required
@@ -54,9 +53,8 @@ def question_create(request, **kwargs):
         "form": form,
     })
     
-    return render_to_response("aiteo/question_create.html",
-        context_instance = RequestContext(request, ctx)
-    )
+    RequestContext(request, ctx)
+    return render_to_response("aiteo/question_create.html", ctx)
 
 
 @login_required # @@@
@@ -103,9 +101,8 @@ def question_detail(request, question_id, **kwargs):
         "add_response_form": add_response_form,
     })
     
-    return render_to_response("aiteo/question_detail.html",
-        context_instance = RequestContext(request, ctx)
-    )
+    RequestContext(request, ctx)
+    return render_to_response("aiteo/question_detail.html", ctx)
 
 
 @login_required
