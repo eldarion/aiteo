@@ -1,4 +1,5 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseNotAllowed, HttpResponseForbidden
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
 
