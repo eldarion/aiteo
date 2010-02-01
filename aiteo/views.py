@@ -103,11 +103,13 @@ def question_detail(request, question_id, **kwargs):
     return render_to_response("aiteo/question_detail.html", ctx)
 
 
-@login_required
 def mark_accepted(request, question_id, response_id, **kwargs):
     
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
+    
+    if question.user != request.user:
+        return HttpResponseForbidden("You are not allowed to mark this question accepted.")
     
     group, bridge = group_and_bridge(kwargs)
     
@@ -120,10 +122,7 @@ def mark_accepted(request, question_id, response_id, **kwargs):
     
     question = get_object_or_404(questions, pk=question_id)
     
-    if question.user == request.user:
-        response = question.responses.get(pk=response_id)
-        response.accept()
-    else:
-        return HttpResponseForbidden("You are not allowed to mark this question accepted.")
+    response = question.responses.get(pk=response_id)
+    response.accept()
     
     return HttpResponse("good")
