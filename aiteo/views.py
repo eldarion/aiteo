@@ -10,7 +10,6 @@ from aiteo.models import Question
 
 
 
-@login_required # @@@
 def question_list(request, **kwargs):
     
     group, bridge = group_and_bridge(kwargs)
@@ -57,7 +56,6 @@ def question_create(request, **kwargs):
     return render_to_response("aiteo/question_create.html", ctx)
 
 
-@login_required # @@@
 def question_detail(request, question_id, **kwargs):
     
     group, bridge = group_and_bridge(kwargs)
