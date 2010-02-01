@@ -123,11 +123,6 @@ def mark_accepted(request, question_id, response_id, **kwargs):
     question = get_object_or_404(questions, pk=question_id)
     
     if question.user == request.user:
-        is_me = True
-    else:
-        is_me = False
-    
-    if is_me:
         response = question.responses.get(pk=response_id)
         response.accept()
     else:
