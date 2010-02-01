@@ -109,7 +109,7 @@ def question_detail(request, question_id, **kwargs):
 def mark_accepted(request, question_id, response_id, **kwargs):
     
     if request.method != "POST":
-        return HttpResponse("bad")
+        return HttpResponseNotAllowed(["POST"])
     
     group, bridge = group_and_bridge(kwargs)
     
