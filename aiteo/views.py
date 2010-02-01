@@ -109,9 +109,6 @@ def mark_accepted(request, question_id, response_id, **kwargs):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
     
-    if question.user != request.user:
-        return HttpResponseForbidden("You are not allowed to mark this question accepted.")
-    
     group, bridge = group_and_bridge(kwargs)
     
     questions = Question.objects.all()
@@ -121,7 +118,8 @@ def mark_accepted(request, question_id, response_id, **kwargs):
     else:
         questions = questions.filter(group_content_type=None)
     
-    question = get_object_or_404(questions, pk=question_id)
+    if question.user != request.user:
+        return HttpResponseForbidden("You are not allowed to mark this question accepted.")
     
     response = question.responses.get(pk=response_id)
     response.accept()
