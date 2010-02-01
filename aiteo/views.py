@@ -126,6 +126,6 @@ def mark_accepted(request, question_id, response_id, **kwargs):
         response = question.responses.get(pk=response_id)
         response.accept()
     else:
-        return HttpResponse("cannot perform action")
+        return HttpResponseForbidden("You are not allowed to mark this question accepted.")
     
     return HttpResponse("good")
