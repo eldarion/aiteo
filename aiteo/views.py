@@ -53,7 +53,7 @@ def question_create(request, **kwargs):
         "form": form,
     })
     
-    RequestContext(request, ctx)
+    ctx = RequestContext(request, ctx)
     return render_to_response("aiteo/question_create.html", ctx)
 
 
@@ -101,7 +101,7 @@ def question_detail(request, question_id, **kwargs):
         "add_response_form": add_response_form,
     })
     
-    RequestContext(request, ctx)
+    ctx = RequestContext(request, ctx)
     return render_to_response("aiteo/question_detail.html", ctx)
 
 
