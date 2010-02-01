@@ -37,8 +37,10 @@ class Question(models.Model):
             "question_id": self.pk,
         }
         if self.group:
-            reverse = self.group.content_bridge.reverse
-        return reverse("aiteo_question_detail", kwargs=kwargs)
+            reverse_func = self.group.content_bridge.reverse
+        else:
+            reverse_func = reverse
+        return reverse_func("aiteo_question_detail", kwargs=kwargs)
 
 
 class Response(models.Model):
