@@ -1,7 +1,6 @@
 from distutils.core import setup
 
 
-
 setup(
     name = "aiteo",
     version = "0.1.dev1",

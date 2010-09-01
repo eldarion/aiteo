@@ -10,7 +10,6 @@ from aiteo.groups import group_and_bridge, group_context
 from aiteo.models import Question
 
 
-
 def question_list(request, **kwargs):
     
     group, bridge = group_and_bridge(kwargs)

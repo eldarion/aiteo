@@ -11,7 +11,6 @@ from django.contrib.contenttypes.models import ContentType
 from voting.models import Vote
 
 
-
 class Question(models.Model):
     
     group_content_type = models.ForeignKey(ContentType, null=True, blank=True)
@@ -83,5 +82,4 @@ def vote_save(sender, instance=None, **kwargs):
         obj = instance.object
         if isinstance(obj, (Question, Response)):
             obj.update_score()
-
 post_save.connect(vote_save, sender=Vote)

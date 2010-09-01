@@ -2,7 +2,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 
 
-
 def group_and_bridge(kwargs):
     """
     Given kwargs from the view (with view specific keys popped) pull out the
