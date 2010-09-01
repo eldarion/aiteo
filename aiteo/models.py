@@ -31,6 +31,14 @@ class Question(models.Model):
         self.vote_count = result["num_votes"]
         self.save()
     
+    @property
+    def accepted_response(self):
+        try:
+            response = self.responses.get(accepted=True)
+        except Response.DoesNotExist:
+            response = None
+        return response
+    
     def get_absolute_url(self):
         kwargs = {
             "question_id": self.pk,
