@@ -98,7 +98,7 @@ def question_detail(request, question_id, **kwargs):
     ctx = group_context(group, bridge)
     ctx.update({
         "group": group,
-        "is_me": is_me,
+        "can_mark_accepted": workflow.can_mark_accepted(request.user, question),
         "question": question,
         "responses": responses,
         "add_response_form": add_response_form,
