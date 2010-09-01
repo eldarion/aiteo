@@ -1,13 +1,18 @@
+from django.conf import settings
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.http import HttpResponseNotAllowed, HttpResponseForbidden
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404, render_to_response
+from django.utils.importlib import import_module
 
 from django.contrib.auth.decorators import login_required
 
 from aiteo.forms import AskQuestionForm, AddResponseForm
 from aiteo.groups import group_and_bridge, group_context
 from aiteo.models import Question
+
+
+workflow = import_module(getattr(settings, "AITEO_WORKFLOW_MODULE", "aiteo.workflow"))
 
 
 def question_list(request, **kwargs):
@@ -119,7 +124,7 @@ def mark_accepted(request, question_id, response_id, **kwargs):
     
     question = get_object_or_404(questions, pk=question_id)
     
-    if question.user != request.user:
+    if not workflow.can_mark_accepted(request.user, question):
         return HttpResponseForbidden("You are not allowed to mark this question accepted.")
     
     response = question.responses.get(pk=response_id)
