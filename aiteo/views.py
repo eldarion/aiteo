@@ -1,8 +1,7 @@
 from django.conf import settings
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.http import HttpResponseNotAllowed, HttpResponseForbidden
-from django.template import RequestContext
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render
 from django.utils.importlib import import_module
 
 from django.contrib.auth.decorators import login_required
@@ -21,9 +20,7 @@ def question_list(request, **kwargs):
     ctx = {
         "questions": questions,
     }
-    
-    ctx = RequestContext(request, ctx)
-    return render_to_response("aiteo/question_list.html", ctx)
+    return render(request, "aiteo/question_list.html", ctx)
 
 
 @login_required
@@ -42,9 +39,7 @@ def question_create(request, **kwargs):
     ctx = {
         "form": form,
     }
-    
-    ctx = RequestContext(request, ctx)
-    return render_to_response("aiteo/question_create.html", ctx)
+    return render(request, "aiteo/question_create.html", ctx)
 
 
 def question_detail(request, question_id, **kwargs):
@@ -80,9 +75,7 @@ def question_detail(request, question_id, **kwargs):
         "responses": responses,
         "add_response_form": add_response_form,
     }
-    
-    ctx = RequestContext(request, ctx)
-    return render_to_response("aiteo/question_detail.html", ctx)
+    return render(request, "aiteo/question_detail.html", ctx)
 
 
 def mark_accepted(request, question_id, response_id, **kwargs):
