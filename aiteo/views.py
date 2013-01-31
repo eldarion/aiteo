@@ -8,7 +8,6 @@ from django.utils.importlib import import_module
 from django.contrib.auth.decorators import login_required
 
 from aiteo.forms import AskQuestionForm, AddResponseForm
-from aiteo.groups import group_and_bridge, group_context
 from aiteo.models import Question
 
 
@@ -17,20 +16,11 @@ workflow = import_module(getattr(settings, "AITEO_WORKFLOW_MODULE", "aiteo.workf
 
 def question_list(request, **kwargs):
     
-    group, bridge = group_and_bridge(kwargs)
-    
     questions = Question.objects.all().order_by("-score", "created", "id")
     
-    if group:
-        questions = group.content_objects(questions)
-    else:
-        questions = questions.filter(group_content_type=None)
-    
-    ctx = group_context(group, bridge)
-    ctx.update({
-        "group": group,
+    ctx = {
         "questions": questions,
-    })
+    }
     
     ctx = RequestContext(request, ctx)
     return render_to_response("aiteo/question_list.html", ctx)
@@ -38,8 +28,6 @@ def question_list(request, **kwargs):
 
 @login_required
 def question_create(request, **kwargs):
-    
-    group, bridge = group_and_bridge(kwargs)
     
     if request.method == "POST":
         form = AskQuestionForm(request.POST)
@@ -51,11 +39,9 @@ def question_create(request, **kwargs):
     else:
         form = AskQuestionForm()
     
-    ctx = group_context(group, bridge)
-    ctx.update({
-        "group": group,
+    ctx = {
         "form": form,
-    })
+    }
     
     ctx = RequestContext(request, ctx)
     return render_to_response("aiteo/question_create.html", ctx)
@@ -63,14 +49,7 @@ def question_create(request, **kwargs):
 
 def question_detail(request, question_id, **kwargs):
     
-    group, bridge = group_and_bridge(kwargs)
-    
     questions = Question.objects.all()
-    
-    if group:
-        questions = group.content_objects(questions)
-    else:
-        questions = questions.filter(group_content_type=None)
     
     question = get_object_or_404(questions, pk=question_id)
     responses = question.responses.order_by("-score", "created", "id")
@@ -95,14 +74,12 @@ def question_detail(request, question_id, **kwargs):
         else:
             add_response_form = None
     
-    ctx = group_context(group, bridge)
-    ctx.update({
-        "group": group,
+    ctx = {
         "can_mark_accepted": workflow.can_mark_accepted(request.user, question),
         "question": question,
         "responses": responses,
         "add_response_form": add_response_form,
-    })
+    }
     
     ctx = RequestContext(request, ctx)
     return render_to_response("aiteo/question_detail.html", ctx)
@@ -113,14 +90,7 @@ def mark_accepted(request, question_id, response_id, **kwargs):
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
     
-    group, bridge = group_and_bridge(kwargs)
-    
     questions = Question.objects.all()
-    
-    if group:
-        questions = group.content_objects(questions)
-    else:
-        questions = questions.filter(group_content_type=None)
     
     question = get_object_or_404(questions, pk=question_id)
     

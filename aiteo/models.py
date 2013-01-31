@@ -5,17 +5,11 @@ from django.db import models
 from django.db.models.signals import post_save
 
 from django.contrib.auth.models import User
-from django.contrib.contenttypes import generic
-from django.contrib.contenttypes.models import ContentType
 
 from voting.models import Vote
 
 
 class Question(models.Model):
-    
-    group_content_type = models.ForeignKey(ContentType, null=True, blank=True)
-    group_object_id = models.IntegerField(null=True, blank=True)
-    group = generic.GenericForeignKey("group_content_type", "group_object_id")
     
     question = models.CharField(max_length=100)
     content = models.TextField()
@@ -40,14 +34,7 @@ class Question(models.Model):
         return response
     
     def get_absolute_url(self):
-        kwargs = {
-            "question_id": self.pk,
-        }
-        if self.group:
-            reverse_func = self.group.content_bridge.reverse
-        else:
-            reverse_func = reverse
-        return reverse_func("aiteo_question_detail", kwargs=kwargs)
+        return reverse("aiteo_question_detail", kwargs=dict(question_id=self.pk))
 
 
 class Response(models.Model):
