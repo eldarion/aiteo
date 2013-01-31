@@ -15,7 +15,6 @@ class Question(models.Model):
     content = models.TextField()
     user = models.ForeignKey(User, related_name="questions")
     created = models.DateTimeField(default=datetime.now)
-    
     score = models.IntegerField(editable=False, default=0)
     vote_count = models.IntegerField(editable=False, default=0)
     
@@ -44,7 +43,6 @@ class Response(models.Model):
     accepted = models.BooleanField(default=False)
     user = models.ForeignKey(User, related_name="responses")
     created = models.DateTimeField(default=datetime.now)
-    
     score = models.IntegerField(editable=False, default=0)
     vote_count = models.IntegerField(editable=False, default=0)
     

@@ -14,9 +14,7 @@ workflow = import_module(getattr(settings, "AITEO_WORKFLOW_MODULE", "aiteo.workf
 
 
 def question_list(request, **kwargs):
-    
     questions = Question.objects.all().order_by("-score", "created", "id")
-    
     ctx = {
         "questions": questions,
     }
@@ -25,7 +23,6 @@ def question_list(request, **kwargs):
 
 @login_required
 def question_create(request, **kwargs):
-    
     if request.method == "POST":
         form = AskQuestionForm(request.POST)
         if form.is_valid():
@@ -35,7 +32,6 @@ def question_create(request, **kwargs):
             return HttpResponseRedirect(question.get_absolute_url())
     else:
         form = AskQuestionForm()
-    
     ctx = {
         "form": form,
     }
@@ -43,20 +39,12 @@ def question_create(request, **kwargs):
 
 
 def question_detail(request, question_id, **kwargs):
-    
     questions = Question.objects.all()
-    
     question = get_object_or_404(questions, pk=question_id)
     responses = question.responses.order_by("-score", "created", "id")
-    
-    if question.user == request.user:
-        is_me = True
-    else:
-        is_me = False
-    
+    is_me = question.user == request.user
     if request.method == "POST":
         add_response_form = AddResponseForm(request.POST)
-        
         if add_response_form.is_valid():
             response = add_response_form.save(commit=False)
             response.question = question
@@ -68,7 +56,6 @@ def question_detail(request, question_id, **kwargs):
             add_response_form = AddResponseForm()
         else:
             add_response_form = None
-    
     ctx = {
         "can_mark_accepted": workflow.can_mark_accepted(request.user, question),
         "question": question,
@@ -79,18 +66,12 @@ def question_detail(request, question_id, **kwargs):
 
 
 def mark_accepted(request, question_id, response_id, **kwargs):
-    
     if request.method != "POST":
         return HttpResponseNotAllowed(["POST"])
-    
     questions = Question.objects.all()
-    
     question = get_object_or_404(questions, pk=question_id)
-    
     if not workflow.can_mark_accepted(request.user, question):
         return HttpResponseForbidden("You are not allowed to mark this question accepted.")
-    
     response = question.responses.get(pk=response_id)
     response.accept()
-    
     return HttpResponse("good")
