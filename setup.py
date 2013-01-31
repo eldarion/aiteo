@@ -6,7 +6,7 @@ setup(
     version = "1.0b1.dev1",
     author = "Eldarion",
     author_email = "development@eldarion.com",
-    description = "aiteo is an app for asking questions",
+    description = "a Django app for question and answer functionality",
     long_description = open("README.rst").read(),
     license = "BSD",
     url = "http://github.com/eldarion/aiteo",
