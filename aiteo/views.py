@@ -4,8 +4,7 @@ from django.http import HttpResponseNotAllowed, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
 from django.utils.importlib import import_module
 
-from django.contrib.auth.decorators import login_required
-
+from account.decorators import login_required
 from aiteo.forms import AskQuestionForm, AddResponseForm
 from aiteo.models import Question
 
