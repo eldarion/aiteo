@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name = "aiteo",
-    version = "0.1.dev2",
+    version = "1.0b1.dev1",
     author = "Eldarion",
     author_email = "development@eldarion.com",
     description = "aiteo is an app for asking questions",
