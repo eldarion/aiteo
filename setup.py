@@ -9,7 +9,7 @@ setup(
     description = "aiteo is an app for asking questions",
     long_description = open("README.rst").read(),
     license = "BSD",
-    url = "http://github.com/eldarion/agora",
+    url = "http://github.com/eldarion/aiteo",
     packages = [
         "aiteo",
         "aiteo.templatetags",
