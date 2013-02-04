@@ -1,12 +1,16 @@
+import json
+
 from django.conf import settings
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.http import HttpResponseNotAllowed, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render
+from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.utils.importlib import import_module
+from django.views.decorators.http import require_POST
 
 from account.decorators import login_required
 from aiteo.forms import AskQuestionForm, AddResponseForm
-from aiteo.models import Question
+from aiteo.models import Question, Response
 
 
 workflow = import_module(getattr(settings, "AITEO_WORKFLOW_MODULE", "aiteo.workflow"))
@@ -64,13 +68,20 @@ def question_detail(request, question_id, **kwargs):
     return render(request, "aiteo/question_detail.html", ctx)
 
 
-def mark_accepted(request, question_id, response_id, **kwargs):
-    if request.method != "POST":
-        return HttpResponseNotAllowed(["POST"])
-    questions = Question.objects.all()
-    question = get_object_or_404(questions, pk=question_id)
-    if not workflow.can_mark_accepted(request.user, question):
+@login_required
+@require_POST
+def mark_accepted(request, response_id):
+    response = get_object_or_404(Response, pk=response_id)
+    if not workflow.can_mark_accepted(request.user, response.question):
         return HttpResponseForbidden("You are not allowed to mark this question accepted.")
-    response = question.responses.get(pk=response_id)
+    
     response.accept()
-    return HttpResponse("good")
+    
+    data = {"fragments": {}}
+    for resp in response.question.responses.all():
+        data["fragments"]["#accepted-{}".format(resp.pk)] = render_to_string(
+            "aiteo/_accepted.html",
+            {"response": resp},
+            context_instance=RequestContext(request)
+        )
+    return HttpResponse(json.dumps(data), mimetype="application/json")

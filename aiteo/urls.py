@@ -18,7 +18,7 @@ urlpatterns = patterns("",
         "aiteo.views.question_detail",
         name="aiteo_question_detail"
     ),
-    url(r"^question/(?P<question_id>\d+)/accept/(?P<response_id>\d+)/$",
+    url(r"^responses/(?P<response_id>\d+)/accept/$",
         "aiteo.views.mark_accepted",
         name="aiteo_mark_accepted"
     ),

@@ -1,6 +1,9 @@
 from django import template
+from django.conf import settings
+from django.utils.importlib import import_module
 
 
+workflow = import_module(getattr(settings, "AITEO_WORKFLOW_MODULE", "aiteo.workflow"))
 register = template.Library()
 
 
@@ -18,3 +21,8 @@ def get_state(original_type, vote_obj):
     if original_type == "down" and vote_obj and vote_obj.is_upvote():
         return "clear"
     return original_type
+
+
+@register.filter
+def can_accept(user, response):
+    return workflow.can_mark_accepted(user, response.question)

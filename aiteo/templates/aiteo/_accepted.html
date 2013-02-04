@@ -1,0 +1,19 @@
+{% load url from future %}
+{% load aiteo_tags %}
+{% if request.user|can_accept:response %}
+    <div class="accepted" id="accepted-{{ response.pk }}">
+        {% if response.accepted %}
+            <i class="icon-ok"></i>
+        {% else %}
+            <a href="{% url 'aiteo_mark_accepted' response.pk %}" class="ajax" data-method="post">
+                <i class="icon-ok"></i>
+            </a>
+        {% endif %}
+    </div>
+{% else %}
+    {% if response.accepted %}
+        <div class="accepted" id="accepted-{{ response.pk }}">
+            <i class="icon-ok"></i>
+        </div>
+    {% endif %}
+{% endif %}
