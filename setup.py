@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = "aiteo",
-    version = "1.0b1.dev1",
+    version = "1.0b1.dev2",
     author = "Eldarion",
     author_email = "development@eldarion.com",
     description = "a Django app for question and answer functionality",
