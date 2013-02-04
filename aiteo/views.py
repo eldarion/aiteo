@@ -16,7 +16,7 @@ from aiteo.models import Question, Response
 workflow = import_module(getattr(settings, "AITEO_WORKFLOW_MODULE", "aiteo.workflow"))
 
 
-def question_list(request, **kwargs):
+def question_list(request):
     questions = Question.objects.all().order_by("-score", "created", "id")
     ctx = {
         "questions": questions,
@@ -25,7 +25,7 @@ def question_list(request, **kwargs):
 
 
 @login_required
-def question_create(request, **kwargs):
+def question_create(request):
     if request.method == "POST":
         form = AskQuestionForm(request.POST)
         if form.is_valid():
@@ -41,7 +41,7 @@ def question_create(request, **kwargs):
     return render(request, "aiteo/question_create.html", ctx)
 
 
-def question_detail(request, question_id, **kwargs):
+def question_detail(request, question_id):
     questions = Question.objects.all()
     question = get_object_or_404(questions, pk=question_id)
     responses = question.responses.order_by("-score", "created", "id")
