@@ -1,47 +1,13 @@
-from django.conf.urls.defaults import *
-
-from voting.views import vote_on_object
-
-from aiteo.models import Question, Response
+from django.conf.urls.defaults import patterns, url
 
 
-urlpatterns = patterns("",
-    url(r"^$",
-        "aiteo.views.question_list",
-        name="aiteo_question_list"
-    ),
-    url(r"^ask/$",
-        "aiteo.views.question_create",
-        name="aiteo_question_create"
-    ),
-    url(r"^question/(?P<question_id>\d+)/$",
-        "aiteo.views.question_detail",
-        name="aiteo_question_detail"
-    ),
-    url(r"^responses/(?P<response_id>\d+)/accept/$",
-        "aiteo.views.mark_accepted",
-        name="aiteo_mark_accepted"
-    ),
-    
-    # Question voting
-    url(r"^question/vote-question/(?P<object_id>\d+)/(?P<direction>up|down|clear)vote/$",
-        vote_on_object, dict(
-            model = Question,
-            template_object_name = "object",
-            template_name = "questions/confirm_vote.html",
-            allow_xmlhttprequest = True
-        ),
-        name="aiteo_question_vote"
-    ),
-    
-    # Response voting
-    url(r"^question/vote-response/(?P<object_id>\d+)/(?P<direction>up|down|clear)vote/$",
-        vote_on_object, dict(
-            model = Response,
-            template_object_name = "object",
-            template_name = "questions/confirm_vote.html",
-            allow_xmlhttprequest = True
-        ),
-        name="aiteo_response_vote"
-    ),
+urlpatterns = patterns("aiteo.views",
+    url(r"^$", "question_list", name="aiteo_question_list"),
+    url(r"^ask/$", "question_create", name="aiteo_question_create"),
+    url(r"^questions/(?P<pk>\d+)/$", "question_detail", name="aiteo_question_detail"),
+    url(r"^questions/(?P<pk>\d+)/upvote/$", "question_upvote", name="aiteo_question_upvote"),
+    url(r"^questions/(?P<pk>\d+)/downvote/$", "question_downvote", name="aiteo_question_downvote"),
+    url(r"^responses/(?P<pk>\d+)/upvote/$", "response_upvote", name="aiteo_response_upvote"),
+    url(r"^responses/(?P<pk>\d+)/downvote/$", "response_downvote", name="aiteo_response_downvote"),
+    url(r"^responses/(?P<pk>\d+)/accept/$", "mark_accepted", name="aiteo_mark_accepted"),
 )

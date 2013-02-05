@@ -41,9 +41,9 @@ def question_create(request):
     return render(request, "aiteo/question_create.html", ctx)
 
 
-def question_detail(request, question_id):
+def question_detail(request, pk):
     questions = Question.objects.all()
-    question = get_object_or_404(questions, pk=question_id)
+    question = get_object_or_404(questions, pk=pk)
     responses = question.responses.order_by("-score", "created", "id")
     is_me = question.user == request.user
     if request.method == "POST":
@@ -70,8 +70,8 @@ def question_detail(request, question_id):
 
 @login_required
 @require_POST
-def mark_accepted(request, response_id):
-    response = get_object_or_404(Response, pk=response_id)
+def mark_accepted(request, pk):
+    response = get_object_or_404(Response, pk=pk)
     if not workflow.can_mark_accepted(request.user, response.question):
         return HttpResponseForbidden("You are not allowed to mark this question accepted.")
     
@@ -84,4 +84,50 @@ def mark_accepted(request, response_id):
             {"response": resp},
             context_instance=RequestContext(request)
         )
+    return HttpResponse(json.dumps(data), mimetype="application/json")
+
+
+@login_required
+@require_POST
+def question_upvote(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    question.vote(user=request.user, upvote=True)
+    data = {
+        "html": render_to_string("aiteo/_question_vote_badge.html", {
+            "question": question
+        }, context_instance=RequestContext(request))
+    }
+    return HttpResponse(json.dumps(data), mimetype="application/json")
+
+
+def question_downvote(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    question.vote(user=request.user, upvote=False)
+    data = {
+        "html": render_to_string("aiteo/_question_vote_badge.html", {
+            "question": question
+        }, context_instance=RequestContext(request))
+    }
+    return HttpResponse(json.dumps(data), mimetype="application/json")
+
+
+def response_upvote(request, pk):
+    response = get_object_or_404(Response, pk=pk)
+    response.vote(user=request.user, upvote=True)
+    data = {
+        "html": render_to_string("aiteo/_response_vote_badge.html", {
+            "response": response
+        }, context_instance=RequestContext(request))
+    }
+    return HttpResponse(json.dumps(data), mimetype="application/json")
+
+
+def response_downvote(request, pk):
+    response = get_object_or_404(Response, pk=pk)
+    response.vote(user=request.user, upvote=False)
+    data = {
+        "html": render_to_string("aiteo/_response_vote_badge.html", {
+            "response": response
+        }, context_instance=RequestContext(request))
+    }
     return HttpResponse(json.dumps(data), mimetype="application/json")

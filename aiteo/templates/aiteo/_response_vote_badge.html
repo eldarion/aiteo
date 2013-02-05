@@ -1,0 +1,27 @@
+{% load aiteo_tags %}
+{% load url from future %}
+<div class="vote_badge response">
+    <div class="up">
+        {% if request.user.is_authenticated %}
+            {% if request.user|voted_up:response or response.user == request.user %}
+                <i class="icon-2x icon-chevron-up"></i>
+            {% else %}
+                <a class="ajax" data-method="post" data-replace-closest=".vote_badge" href="{% url 'aiteo_response_upvote' response.pk %}">
+                    <i class="icon-2x icon-chevron-up"></i>
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="score">{{ response.score|default:"0" }}</div>
+    <div class="down">
+        {% if request.user.is_authenticated %}
+            {% if user|voted_down:response or response.user == request.user %}
+                <i class="icon-2x icon-chevron-down"></i>
+            {% else %}
+                <a class="ajax" data-method="post" data-replace-closest=".vote_badge" href="{% url 'aiteo_response_downvote' response.pk %}">
+                    <i class="icon-2x icon-chevron-down"></i>
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
