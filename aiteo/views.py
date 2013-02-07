@@ -100,6 +100,8 @@ def question_upvote(request, pk):
     return HttpResponse(json.dumps(data), mimetype="application/json")
 
 
+@login_required
+@require_POST
 def question_downvote(request, pk):
     question = get_object_or_404(Question, pk=pk)
     question.vote(user=request.user, upvote=False)
@@ -111,6 +113,8 @@ def question_downvote(request, pk):
     return HttpResponse(json.dumps(data), mimetype="application/json")
 
 
+@login_required
+@require_POST
 def response_upvote(request, pk):
     response = get_object_or_404(Response, pk=pk)
     response.vote(user=request.user, upvote=True)
@@ -122,6 +126,8 @@ def response_upvote(request, pk):
     return HttpResponse(json.dumps(data), mimetype="application/json")
 
 
+@login_required
+@require_POST
 def response_downvote(request, pk):
     response = get_object_or_404(Response, pk=pk)
     response.vote(user=request.user, upvote=False)
