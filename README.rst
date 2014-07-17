@@ -1,6 +1,6 @@
 aiteo README
 ============
-b
+
 .. image:: https://img.shields.io/travis/eldarion/aiteo.svg
     :target: https://travis-ci.org/eldarion/aiteo
 
