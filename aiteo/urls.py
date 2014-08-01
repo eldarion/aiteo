@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, url
 
 
-urlpatterns = patterns("aiteo.views",
+urlpatterns = patterns(
+    "aiteo.views",
     url(r"^$", "question_list", name="aiteo_question_list"),
     url(r"^ask/$", "question_create", name="aiteo_question_create"),
     url(r"^questions/(?P<pk>\d+)/$", "question_detail", name="aiteo_question_detail"),
