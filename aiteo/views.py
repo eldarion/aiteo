@@ -74,9 +74,9 @@ def mark_accepted(request, pk):
     response = get_object_or_404(Response, pk=pk)
     if not workflow.can_mark_accepted(request.user, response.question):
         return HttpResponseForbidden("You are not allowed to mark this question accepted.")
-    
+
     response.accept()
-    
+
     data = {"fragments": {}}
     for resp in response.question.responses.all():
         data["fragments"]["#accepted-{}".format(resp.pk)] = render_to_string(
